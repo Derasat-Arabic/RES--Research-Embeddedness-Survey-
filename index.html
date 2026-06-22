@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Researcher Embeddedness Statement (RES)</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .navbar-menu a {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-menu a:hover,
+        .navbar-menu a.active {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+            min-height: calc(100vh - 100px);
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* HOME PAGE */
+        .home-header {
+            background: white;
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .home-header h1 {
+            font-size: 2.5em;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .home-header p {
+            font-size: 1.1em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-start:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        /* QUESTIONNAIRE */
+        .questionnaire-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+        }
+
+        .questionnaire-content {
+            padding: 40px 30px;
+        }
+
+        .question-counter {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .question-wrapper {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .question-wrapper.active {
+            display: block;
+        }
+
+        .question-text {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .question-helper {
+            font-size: 0.85em;
+            color: #e74c3c;
+            margin-bottom: 20px;
+            font-style: italic;
+            font-weight: 600;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 8px;
+            background: #f9f9f9;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .option:hover {
+            background: #f0f0f0;
+            border-color: #667eea;
+        }
+
+        .option input {
+            margin-right: 15px;
+            width: 20px;
+            height: 20px;
+            accent-color: #667eea;
+            cursor: pointer;
+        }
+
+        .option label {
+            flex: 1;
+            cursor: pointer;
+            margin: 0;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 1em;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        select:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-nav {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-nav:hover {
+            background: #7f8c8d;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-download {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-download:hover {
+            background: #229954;
+        }
+
+        .btn-reset {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* ABOUT PAGE */
+        .about-container {
+            background: white;
+            border-radius: 15px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .about-container h2 {
+            color: #667eea;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .about-container p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .about-container ul {
+            margin-left: 20px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .about-container li {
+            margin-bottom: 10px;
+        }
+
+        /* LEARN PAGE */
+        .learn-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            height: 85vh;
+            max-height: 800px;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 30px;
+            background: #f9f9f9;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            text-align: right;
+        }
+
+        .message.user .message-content {
+            background: #667eea;
+            color: white;
+            border-radius: 15px 15px 0 15px;
+        }
+
+        .message.ai .message-content {
+            background: #e8e8e8;
+            color: #333;
+            border-radius: 15px 15px 15px 0;
+        }
+
+        .message-content {
+            display: inline-block;
+            max-width: 70%;
+            padding: 12px 15px;
+            border-radius: 15px;
+            line-height: 1.5;
+        }
+
+        .message-source {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 8px;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+
+        .message-source strong {
+            color: #667eea;
+        }
+
+        .message-source a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .message-source a:hover {
+            text-decoration: underline;
+        }
+
+        .suggested-questions {
+            padding: 0 30px 20px;
+            background: #f9f9f9;
+        }
+
+        .suggested-questions p {
+            color: #666;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+
+        .question-btn {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin: 5px 5px 5px 0;
+            border: none;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        .question-btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .chat-input-area {
+            padding: 20px 30px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input-area input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input-area input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .chat-input-area button {
+            background: #667eea;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input-area button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .welcome-message {
+            background: #f0f7ff;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            margin-bottom: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .loading {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+            font-style: italic;
+        }
+
+        .section-info {
+            background: #f0f7ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid #667eea;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .results-container {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .profile-display {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 5px solid #667eea;
+        }
+
+        .profile-rating {
+            font-size: 2.2em;
+            color: #667eea;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .profile-description {
+            color: #333;
+            line-height: 1.6;
+            margin-top: 15px;
+        }
+
+        .demographics-display {
+            background: #f0f7ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+            font-size: 0.95em;
+        }
+
+        .dimensions-breakdown {
+            margin: 30px 0;
+        }
+
+        .dimension-item {
+            background: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .dimension-status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .status-strong {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-moderate {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .status-limited {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .suggested-questions-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 5px solid #27ae60;
+        }
+
+        .suggested-questions-section h3 {
+            color: #27ae60;
+            margin-bottom: 15px;
+        }
+
+        .question-item {
+            background: #f0fdf4;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border-left: 3px solid #27ae60;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .pdf-content {
+            display: none;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .footer p {
+            margin: 8px 0;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .footer a {
+            color: #fff;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .footer a:hover {
+            border-bottom-color: white;
+        }
+
+        .license {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.85em;
+        }
+
+        .cc-license {
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        @media print {
+            body { background: white; }
+            .navbar { display: none; }
+            .button-group { display: none; }
+            .footer { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <div class="navbar-brand">RES Tool</div>
+        <ul class="navbar-menu">
+            <li><a onclick="showPage('home')" class="nav-link active">Home</a></li>
+            <li><a onclick="showPage('about')" class="nav-link">About</a></li>
+            <li><a onclick="showPage('learn')" class="nav-link">Learn</a></li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <!-- HOME PAGE -->
+        <div id="home" class="page active">
+            <div class="home-header">
+                <h1>Researcher Embeddedness Statement (RES)</h1>
+                <p>Methodological Self-Assessment Questionnaire</p>
+                <p style="font-size: 0.95em; margin-top: 15px;">
+                    Evaluate your positioning as a researcher in relation to your research community and context.
+                </p>
+                <button class="btn-start" onclick="startQuestionnaire()">Start Assessment</button>
+            </div>
+
+            <div id="questionnaire" class="questionnaire-container hidden">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+
+                <div class="questionnaire-content">
+                    <div class="question-counter">
+                        Question <span id="currentQuestion">1</span> of <span id="totalQuestions">26</span>
+                    </div>
+
+                    <form id="resForm"></form>
+
+                    <div class="button-group">
+                        <button class="btn-nav" id="prevBtn" onclick="previousQuestion()">← Previous</button>
+                        <button class="btn-nav" id="nextBtn" onclick="nextQuestion()">Next →</button>
+                        <button class="btn-submit hidden" id="submitBtn" onclick="submitForm()">📊 View Assessment</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="results" class="results-container hidden">
+                <div class="demographics-display">
+                    <div><strong>Country/Region:</strong> <span id="demCountry">Not specified</span></div>
+                    <div><strong>Discipline(s):</strong> <span id="demDiscipline">Not specified</span></div>
+                </div>
+
+                <div class="profile-display">
+                    <div style="font-size: 0.9em; color: #666;">YOUR RESEARCHER EMBEDDEDNESS PROFILE</div>
+                    <div class="profile-rating" id="profileRating">Moderately Embedded</div>
+                    <div class="profile-description" id="profileDescription"></div>
+                </div>
+
+                <div id="analysisSection"></div>
+
+                <div class="dimensions-breakdown">
+                    <h3 style="color: #667eea; margin-bottom: 15px;">Embeddedness Across Dimensions</h3>
+                    <div id="dimensionsBreakdown"></div>
+                </div>
+
+                <div class="suggested-questions-section">
+                    <h3>🔍 Suggested Methodological Questions for Your Manuscript</h3>
+                    <div id="suggestedQuestions"></div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-download" onclick="downloadPDF()">📥 Download PDF Report</button>
+                    <button class="btn-reset" onclick="resetForm()">🔄 Start Over</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ABOUT PAGE -->
+        <div id="about" class="page">
+            <div class="about-container">
+                <h1 style="color: #667eea; margin-bottom: 30px;">About the RES Tool</h1>
+
+                <h2>What is the Researcher Embeddedness Statement?</h2>
+                <p>
+                    The Researcher Embeddedness Statement (RES) is a comprehensive self-assessment tool designed to help researchers 
+                    evaluate and articulate their positioning in relation to their research community and context. Embeddedness refers 
+                    to the degree to which a researcher has direct connections, experience, and relationships with the community, 
+                    country, or group they are studying.
+                </p>
+
+                <h2>Why is Researcher Embeddedness Important?</h2>
+                <ul>
+                    <li><strong>Research Validity:</strong> Understanding your positionality helps ensure more rigorous and transparent research</li>
+                    <li><strong>Ethical Research:</strong> Awareness of your positioning enables more ethical engagement with communities</li>
+                    <li><strong>Methodological Transparency:</strong> Explicitly discussing embeddedness strengthens your methodology section</li>
+                    <li><strong>Reflexivity:</strong> The tool encourages critical reflection on how your relationship to the community influences interpretation</li>
+                </ul>
+
+                <h2>How to Use This Tool</h2>
+                <ol style="margin-left: 20px;">
+                    <li><strong>Start the Assessment:</strong> Click "Start Assessment" to begin the 26-question questionnaire</li>
+                    <li><strong>Answer Questions:</strong> Respond honestly to questions about your relationship to the research context</li>
+                    <li><strong>Review Results:</strong> Receive a personalized profile and recommendations for your methodology discussion</li>
+                    <li><strong>Use in Your Research:</strong> Incorporate the suggested questions and findings into your manuscript</li>
+                </ol>
+
+                <h2>Assessment Dimensions</h2>
+                <p>The tool evaluates embeddedness across eight key dimensions:</p>
+                <ul>
+                    <li>Country/Society Relationship</li>
+                    <li>Community Connection</li>
+                    <li>Language Proficiency</li>
+                    <li>Research Experience</li>
+                    <li>Field Presence</li>
+                    <li>Community Collaboration</li>
+                    <li>Positionality Awareness</li>
+                    <li>Data & Methodological Constraints</li>
+                </ul>
+
+                <h2>Embeddedness Profiles</h2>
+                <p>Based on your responses, you will receive one of five embeddedness profiles:</p>
+                <ul>
+                    <li><strong>Highly Embedded:</strong> Strong connections and deep engagement with the research community</li>
+                    <li><strong>Moderately Embedded:</strong> Balanced insider and outsider perspectives</li>
+                    <li><strong>Minimally Embedded:</strong> Limited direct connections but some community engagement</li>
+                    <li><strong>Weakly Embedded:</strong> Primarily external positioning with minimal community relationships</li>
+                </ul>
+
+                <h2>Learning More</h2>
+                <p>
+                    To understand researcher embeddedness in more depth and explore theoretical frameworks, 
+                    visit our <a onclick="showPage('learn')" style="color: #667eea; cursor: pointer; text-decoration: underline;">Learning Page</a> 
+                    to chat with our AI assistant and access peer-reviewed academic sources.
+                </p>
+            </div>
+        </div>
+
+        <!-- LEARN PAGE -->
+        <div id="learn" class="page">
+            <div class="learn-container">
+                <div class="chat-header">
+                    <h2 style="margin: 0;">Learn About Researcher Embeddedness</h2>
+                    <p style="margin: 5px 0 0 0; opacity: 0.9;">Ask me anything about embeddedness and research positionality</p>
+                </div>
+
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message ai">
+                        <div class="message-content">
+                            <strong>Welcome!</strong> 👋<br><br>
+                            I'm here to help you understand researcher embeddedness and positionality. 
+                            All information I provide comes from peer-reviewed academic literature and institutional repositories. 
+                            Each response includes direct links to the original sources (Sage, Routledge, Taylor & Francis, JSTOR, etc.).<br><br>
+                            <em>Click a suggested question below or type your own question to get started!</em>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="suggested-questions">
+                    <p><strong>Suggested questions:</strong></p>
+                    <button class="question-btn" onclick="askQuestion('What is researcher embeddedness?')">What is researcher embeddedness?</button>
+                    <button class="question-btn" onclick="askQuestion('How does embeddedness affect research quality?')">How does embeddedness affect research quality?</button>
+                    <button class="question-btn" onclick="askQuestion('What are insider vs outsider positionality?')">What are insider vs outsider positionality?</button>
+                    <button class="question-btn" onclick="askQuestion('How do I assess my researcher embeddedness?')">How do I assess my embeddedness?</button>
+                </div>
+
+                <div class="chat-input-area">
+                    <input type="text" id="chatInput" placeholder="Ask a question..." onkeypress="if(event.key==='Enter') sendMessage()">
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <p><strong>Researcher Embeddedness Statement (RES) Tool</strong></p>
+        <p>Created and authored by <strong>Dr Noha Atef</strong></p>
+        <p style="margin-top: 15px;">Developed as a non-commercial scholarly methodological resource for research transparency and reflexive practice.</p>
+        
+        <div class="license">
+            <p>Licensed under Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International</p>
+            <p style="font-size: 0.8em; margin: 10px 0;">
+                <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a>
+            </p>
+            <p style="font-size: 0.8em;">
+                This work is protected under CC BY-NC-ND 4.0. You may share this tool for non-commercial purposes with proper attribution, but you may not modify, adapt, or create derivative works without explicit permission from the author.
+            </p>
+        </div>
+    </div>
+        <!-- PDF content will be generated here -->
+    </div>
+
+    <script>
+        // Questions data (26 total)
+        const questions = [
+            {
+                id: 'q0',
+                section: 'Demographic Information',
+                text: 'Which country or region is your research focused on?',
+                type: 'select',
+                options: ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Central African Republic', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros', 'Congo', 'Costa Rica', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Czechia', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'East Timor', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Eswatini', 'Ethiopia', 'Fiji', 'Finland', 'France', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada', 'Guatemala', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kiribati', 'Kosovo', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands', 'Mauritania', 'Mauritius', 'Mexico', 'Micronesia', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia', 'Nauru', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'North Korea', 'North Macedonia', 'Norway', 'Oman', 'Pakistan', 'Palau', 'Palestine', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Rwanda', 'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines', 'Samoa', 'San Marino', 'Sao Tome and Principe', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa', 'South Korea', 'South Sudan', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'Sweden', 'Switzerland', 'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Timor-Leste', 'Togo', 'Tonga', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe']
+            },
+            {
+                id: 'q1',
+                section: 'Demographic Information',
+                text: 'Which disciplinary field(s) best describes your research?',
+                helper: 'Select all that apply',
+                type: 'checkbox',
+                options: ['Humanities', 'Social Sciences', 'Communication/Media Studies', 'Education', 'Interdisciplinary', 'Other']
+            },
+            {
+                id: 'q2',
+                section: 'Section A',
+                text: 'What is your relationship to the country or society in which this research is situated?',
+                helper: 'Select all that apply',
+                type: 'checkbox',
+                options: ['I was born there', 'I was raised there', 'I currently live there', 'I previously lived there', 'I hold citizenship of that country', 'I work or have worked there', 'I have close family members living there', 'I have long-term social networks there', 'I have no direct relationship beyond this research project']
+            },
+            {
+                id: 'q3',
+                section: 'Section A',
+                text: 'For approximately how long have you had a direct relationship with this country or society?',
+                type: 'radio',
+                options: ['Less than 1 year', '1-3 years', '4-10 years', 'More than 10 years', 'Since birth']
+            },
+            {
+                id: 'q4',
+                section: 'Section B',
+                text: 'What is your relationship to the specific community or group that is the focus of this research?',
+                helper: 'Select all that apply',
+                type: 'checkbox',
+                options: ['I identify as a member of this community', 'I was previously a member of this community', 'I have close family members who belong to this community', 'I have close friends who belong to this community', 'I work or have worked within this community', 'I participate or have participated in activities associated with this community', 'I have long-term engagement with members of this community', 'My primary connection to this community is through research', 'I have no direct connection to this community beyond this project']
+            },
+            {
+                id: 'q5',
+                section: 'Section B',
+                text: 'Prior to conducting this research, how familiar were you with the community under study?',
+                type: 'radio',
+                options: ['Extremely familiar', 'Very familiar', 'Moderately familiar', 'Slightly familiar', 'Not familiar at all']
+            },
+            {
+                id: 'q6',
+                section: 'Section C',
+                text: 'What is your level of proficiency in the primary language(s) used by members of the community under study?',
+                type: 'radio',
+                options: ['Native speaker', 'Fluent', 'Advanced', 'Intermediate', 'Basic', 'No proficiency']
+            },
+            {
+                id: 'q7',
+                section: 'Section C',
+                text: 'In which language(s) was the majority of the research conducted?',
+                helper: 'Select all that apply',
+                type: 'checkbox',
+                options: ['In the community\'s primary language(s)', 'In English', 'In another language', 'Through an interpreter or translator']
+            },
+            {
+                id: 'q8',
+                section: 'Section C',
+                text: 'Were you able to communicate directly with participants in their preferred language without an intermediary?',
+                type: 'radio',
+                options: ['Always', 'Often', 'Sometimes', 'Rarely', 'Never']
+            },
+            {
+                id: 'q9',
+                section: 'Section D',
+                text: 'Prior to this project, how much research experience did you have relating to this community or topic?',
+                type: 'radio',
+                options: ['None', 'One previous project', 'Several previous projects', 'More than five years of research experience', 'More than ten years of research experience']
+            },
+            {
+                id: 'q10',
+                section: 'Section D',
+                text: 'Prior to this project, had you published research related to this community or topic?',
+                type: 'radio',
+                options: ['No', 'One publication', '2-5 publications', 'More than 5 publications', 'One or more books']
+            },
+            {
+                id: 'q11',
+                section: 'Section E',
+                text: 'Were you physically present in the country or community during the period of data collection?',
+                type: 'radio',
+                options: ['Throughout the entire study', 'During most of the study', 'During part of the study', 'Only for short visits', 'Not at all']
+            },
+            {
+                id: 'q12',
+                section: 'Section E',
+                text: 'Approximately how much time have you spent in direct contact with the community under study?',
+                type: 'radio',
+                options: ['Less than one week', 'One week to one month', 'One month to six months', 'Six months to one year', 'More than one year']
+            },
+            {
+                id: 'q13',
+                section: 'Section F',
+                text: 'Were members of the community involved in the design of the research?',
+                type: 'radio',
+                options: ['Yes, extensively', 'Yes, to some extent', 'Informally consulted', 'No']
+            },
+            {
+                id: 'q14',
+                section: 'Section F',
+                text: 'Were members of the community involved in data collection, interpretation, or analysis?',
+                type: 'radio',
+                options: ['Yes, extensively', 'Yes, to some extent', 'No']
+            },
+            {
+                id: 'q15',
+                section: 'Section F',
+                text: 'Were your findings or interpretations discussed with members of the community before publication?',
+                type: 'radio',
+                options: ['Yes, systematically', 'Yes, to a limited extent', 'No']
+            },
+            {
+                id: 'q16',
+                section: 'Section G',
+                text: 'How would you describe your position in relation to the community under study?',
+                type: 'radio',
+                options: ['Primarily an insider', 'More insider than outsider', 'Equally insider and outsider', 'More outsider than insider', 'Primarily an outsider']
+            },
+            {
+                id: 'q17',
+                section: 'Section G',
+                text: 'Which factors contribute to your self-assessment above?',
+                helper: 'Select all that apply',
+                type: 'checkbox',
+                options: ['Citizenship', 'Being born or raised in the country', 'Residence', 'Family ties', 'Social networks', 'Shared language', 'Shared cultural background', 'Shared religious background', 'Professional experience', 'Research experience', 'Long-term engagement with community members', 'Membership in the community itself', 'None of the above']
+            },
+            {
+                id: 'q18',
+                section: 'Section G',
+                text: 'Did the manuscript include an explicit discussion of your positionality in relation to the community under study?',
+                type: 'radio',
+                options: ['Yes, in substantial detail', 'Yes, briefly', 'No']
+            },
+            {
+                id: 'q19',
+                section: 'Section G',
+                text: 'To what extent do you believe your relationship to the community influenced your interpretation of the findings?',
+                type: 'radio',
+                options: ['To a great extent', 'To a moderate extent', 'To a limited extent', 'Unsure', 'Not at all']
+            },
+            {
+                id: 'q20',
+                section: 'Section H',
+                text: 'What type of material or data does the study primarily rely on?',
+                helper: 'Select all that apply',
+                type: 'checkbox',
+                options: ['Interviews or focus groups', 'Ethnographic observation', 'Survey data', 'Digital/social media data', 'Cultural texts/media texts', 'Archival or historical material', 'Mixed sources']
+            },
+            {
+                id: 'q21',
+                section: 'Section H',
+                text: 'To what extent were you able to implement your intended research design?',
+                type: 'radio',
+                options: ['Fully. I was able to implement the research design largely as planned.', 'Mostly. Minor adjustments were required but did not substantially alter the study.', 'Partially. Significant modifications were required during the research process.', 'Limited. Major constraints substantially affected the implementation of the intended methodology.', 'Not applicable.']
+            },
+            {
+                id: 'q22',
+                section: 'Section H',
+                text: 'If constraints affected the implementation of your intended methodology, what were the primary reasons?',
+                helper: 'Select all that apply',
+                type: 'checkbox',
+                options: ['Safety concerns for participants or the researcher', 'Institutional restrictions', 'Ethical review requirements', 'Legal restrictions', 'Limited access to sites or field locations', 'Funding limitations', 'Language barriers', 'Technical or logistical challenges', 'Other research-related constraints']
+            },
+            {
+                id: 'q23',
+                section: 'Section H',
+                text: 'In your view, how much did these constraints influence the final design of the study?',
+                type: 'radio',
+                options: ['Very substantially', 'Substantially', 'Moderately', 'Slightly', 'Not at all']
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let currentPage = 'home';
+        let chatHistory = [];
+
+        // PAGE NAVIGATION
+        function showPage(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(page).classList.add('active');
+            
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            currentPage = page;
+            
+            if (page === 'learn') {
+                setTimeout(() => {
+                    const chatMessages = document.getElementById('chatMessages');
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 100);
+            }
+        }
+
+        // QUESTIONNAIRE FUNCTIONS
+        function startQuestionnaire() {
+            document.querySelector('.home-header').classList.add('hidden');
+            document.getElementById('questionnaire').classList.remove('hidden');
+            initializeForm();
+            currentQuestionIndex = 0;
+            showQuestion();
+        }
+
+        function initializeForm() {
+            const form = document.getElementById('resForm');
+            form.innerHTML = '';
+
+            questions.forEach((q, index) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = `question-wrapper ${index === 0 ? 'active' : ''}`;
+                wrapper.id = `q-${index}`;
+
+                let html = `<div class="section-info">
+                    <strong>${q.section}:</strong> Question ${index + 1} of ${questions.length}
+                </div>
+                <div class="question-text">${q.text}</div>`;
+
+                if (q.helper) {
+                    html += `<div class="question-helper">✓ ${q.helper}</div>`;
+                }
+
+                if (q.type === 'select') {
+                    html += `<select name="${q.id}" required>
+                        <option value="">-- Select an option --</option>`;
+                    q.options.forEach(option => {
+                        html += `<option value="${option}">${option}</option>`;
+                    });
+                    html += `</select>`;
+                } else {
+                    html += '<div class="options">';
+                    q.options.forEach((option, idx) => {
+                        const value = option.toLowerCase().replace(/[^a-z0-9]/g, '_');
+                        html += `<div class="option">
+                            <input type="${q.type}" name="${q.id}" value="${value}" id="${q.id}_${idx}">
+                            <label for="${q.id}_${idx}">${option}</label>
+                        </div>`;
+                    });
+                    html += '</div>';
+                }
+
+                wrapper.innerHTML = html;
+                form.appendChild(wrapper);
+            });
+
+            document.getElementById('totalQuestions').textContent = questions.length;
+        }
+
+        function showQuestion() {
+            document.querySelectorAll('.question-wrapper').forEach(q => q.classList.remove('active'));
+            document.getElementById(`q-${currentQuestionIndex}`).classList.add('active');
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            document.getElementById('prevBtn').classList.toggle('hidden', currentQuestionIndex === 0);
+            document.getElementById('nextBtn').classList.toggle('hidden', currentQuestionIndex === questions.length - 1);
+            document.getElementById('submitBtn').classList.toggle('hidden', currentQuestionIndex !== questions.length - 1);
+            
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                showQuestion();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                showQuestion();
+            }
+        }
+
+        function submitForm() {
+            analyzeResponses();
+        }
+
+        function analyzeResponses() {
+            const country = document.querySelector('select[name="q0"]').value;
+            const disciplines = Array.from(document.querySelectorAll('input[name="q1"]:checked')).map(el => {
+                const checkbox = el;
+                return checkbox.parentElement.textContent.trim();
+            });
+
+            // Calculate scores - START FROM Q2 (skip demographic q0 and q1)
+            let totalResponses = 0;
+            let totalQuestionSize = 0;
+            
+            for (let i = 2; i < questions.length; i++) {
+                const question = questions[i];
+                const elements = document.querySelectorAll(`input[name="${question.id}"]:checked`);
+                totalResponses += elements.length;
+                totalQuestionSize += question.options.length;
+            }
+
+            const avgScore = totalQuestionSize > 0 ? (totalResponses / totalQuestionSize) * 100 : 0;
+            
+            let profile, description;
+            if (avgScore >= 80) {
+                profile = 'Highly Embedded';
+                description = 'You demonstrate strong embeddedness with extensive connections to your research community. Your deep relationships, language proficiency, and field experience position you well for rich contextual understanding, while requiring explicit attention to potential biases.';
+            } else if (avgScore >= 60) {
+                profile = 'Moderately Embedded';
+                description = 'You have balanced insider and outsider perspectives in your research community. This hybrid positioning offers both contextual knowledge and analytical distance, requiring explicit discussion of how your relationships influence interpretation.';
+            } else if (avgScore >= 40) {
+                profile = 'Minimally Embedded';
+                description = 'You have limited but meaningful engagement with your research community. While your external perspective provides analytical advantages, you should establish strategies for building adequate cultural understanding and community collaboration.';
+            } else {
+                profile = 'Weakly Embedded';
+                description = 'Your positioning is primarily external to the research community. Your outsider status provides analytical advantages while requiring deliberate strategies for building community relationships, understanding, and ensuring ethical engagement.';
+            }
+
+            displayResults(profile, description, country, disciplines);
+        }
+
+        function displayResults(profile, description, country, disciplines) {
+            document.getElementById('questionnaire').classList.add('hidden');
+            document.getElementById('results').classList.remove('hidden');
+
+            document.getElementById('demCountry').textContent = country || 'Not specified';
+            document.getElementById('demDiscipline').textContent = disciplines.length > 0 ? disciplines.join(', ') : 'Not specified';
+            document.getElementById('profileRating').textContent = profile;
+            document.getElementById('profileDescription').textContent = description;
+
+            // Generate analysis HTML
+            let analysisHTML = `<div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #667eea;">
+                <h3 style="color: #667eea; margin-bottom: 10px;">Your Profile</h3>
+                <p style="color: #555; line-height: 1.6;">${description}</p>
+            </div>`;
+
+            document.getElementById('analysisSection').innerHTML = analysisHTML;
+
+            // Mock dimensions
+            const dimensions = ['Country/Society Relationship', 'Community Connection', 'Language Proficiency', 'Research Experience', 'Field Presence', 'Community Collaboration', 'Positionality Awareness'];
+            let dimensionsHTML = '';
+            dimensions.forEach(dim => {
+                const status = Math.random() > 0.5 ? 'Strong' : 'Moderate';
+                const statusClass = status === 'Strong' ? 'status-strong' : 'status-moderate';
+                dimensionsHTML += `<div class="dimension-item">
+                    <div style="font-weight: 600; margin-bottom: 8px;">${dim}</div>
+                    <span class="dimension-status ${statusClass}">${status}</span>
+                </div>`;
+            });
+            document.getElementById('dimensionsBreakdown').innerHTML = dimensionsHTML;
+
+            // Suggested questions
+            const suggestedQuestions = [
+                'How did you employ reflexivity techniques in your research?',
+                'What strategies did you use to address potential biases?',
+                'How did you validate your interpretations with community members?',
+                'What mechanisms ensured ethical engagement?'
+            ];
+            let suggestionsHTML = '';
+            suggestedQuestions.forEach(q => {
+                suggestionsHTML += `<div class="question-item">"${q}"</div>`;
+            });
+            document.getElementById('suggestedQuestions').innerHTML = suggestionsHTML;
+        }
+
+        function resetForm() {
+            currentQuestionIndex = 0;
+            document.getElementById('resForm').reset();
+            document.getElementById('questionnaire').classList.remove('hidden');
+            document.getElementById('results').classList.add('hidden');
+            document.querySelector('.home-header').classList.remove('hidden');
+        }
+
+        function downloadPDF() {
+            alert('PDF download functionality would be implemented here.');
+        }
+
+        // CHAT FUNCTIONS
+        function askQuestion(question) {
+            document.getElementById('chatInput').value = question;
+            sendMessage();
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+
+            // Add user message
+            addMessage(message, 'user');
+            input.value = '';
+
+            // Simulate AI response
+            setTimeout(() => {
+                const response = generateAIResponse(message);
+                addMessage(response.text, 'ai', response.sources);
+            }, 1000);
+        }
+
+        function addMessage(text, sender, sources = null) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+
+            let html = `<div class="message-content">${text}</div>`;
+            
+            if (sources && sender === 'ai') {
+                html += `<div class="message-source">
+                    <strong>📚 Academic Sources:</strong><br>`;
+                sources.forEach(source => {
+                    html += `<div style="margin: 10px 0; padding: 10px; background: rgba(255,255,255,0.5); border-radius: 5px; border-left: 3px solid #667eea;">
+                             <strong>${source.title}</strong><br>
+                             <em>${source.author} (${source.year})</em><br>
+                             <em style="font-size: 0.85em; color: #666;">${source.journal || 'Academic Publication'}</em><br>
+                             <a href="${source.link}" target="_blank" style="color: #667eea; text-decoration: underline; font-size: 0.85em;">🔗 Access via DOI</a>
+                             </div>`;
+                });
+                html += `</div>`;
+            }
+
+            messageDiv.innerHTML = html;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function generateAIResponse(question) {
+            const lowerQ = question.toLowerCase();
+            
+            if (lowerQ.includes('what is') && lowerQ.includes('embeddedness')) {
+                return {
+                    text: `Researcher embeddedness is a multidimensional concept that captures the degree to which you are socially, culturally, linguistically, and institutionally integrated within your research community. It goes beyond mere geographical proximity—it encompasses your accumulated social capital, shared cultural and linguistic competence, duration and quality of relationships with community members, prior research experience in the context, and ongoing engagement with institutional structures. Embeddedness fundamentally shapes every aspect of the research process: how you access participants and sites, which questions emerge as salient, how you interpret findings, and your ethical responsibilities. Highly embedded researchers gain rich contextual understanding and community trust but must actively manage potential biases from insider positioning. External researchers bring analytical distance and fresh perspectives but may struggle with cultural competence and access. Most researchers occupy fluid, context-dependent positions along this spectrum.`,
+                    sources: [
+                        {
+                            title: 'The extended case method',
+                            author: 'Burawoy, M.',
+                            year: '1998',
+                            link: 'https://doi.org/10.1111/0735-2751.00040',
+                            journal: 'Sociological Theory'
+                        },
+                        {
+                            title: 'Deconstructing insider–outsider researcher positionality',
+                            author: 'Bukamal, H.',
+                            year: '2022',
+                            link: 'https://doi.org/10.1111/1467-8578.12426',
+                            journal: 'British Journal of Special Education'
+                        },
+                        {
+                            title: 'Positionality: The interplay of space, context and identity',
+                            author: 'Bayeck, R. Y.',
+                            year: '2022',
+                            link: 'https://doi.org/10.1177/21582440221114745',
+                            journal: 'SAGE Open'
+                        }
+                    ]
+                };
+            } else if (lowerQ.includes('quality') || lowerQ.includes('validity')) {
+                return {
+                    text: `Researcher embeddedness profoundly influences research quality through multiple interconnected mechanisms. Embedded researchers develop thick understanding of community contexts, norms, and unspoken assumptions—enabling them to ask culturally appropriate questions and recognize meaningful patterns. Their established relationships often facilitate access to sensitive data and participants' willingness to engage deeply. However, embeddedness introduces specific validity challenges: unconscious assumptions, difficulty achieving critical distance, and risk of reinforcing existing community perspectives rather than interrogating them. Conversely, external researchers maintain analytical distance and relative independence from community politics, but may misinterpret cultural meanings, miss contextually crucial information, or struggle to build sufficient rapport for genuine participation. Research quality is optimized when scholars explicitly acknowledge their positionality, employ reflexive practices throughout the research process, employ appropriate methodological strategies that address the implications of their positioning, and clearly articulate how their embeddedness shaped the research design, execution, and interpretation.`,
+                    sources: [
+                        {
+                            title: 'Negotiating the swamp: The opportunity and challenge of reflexivity in research practice',
+                            author: 'Finlay, L.',
+                            year: '2002',
+                            link: 'https://doi.org/10.1177/146879410200200205',
+                            journal: 'Qualitative Research'
+                        },
+                        {
+                            title: 'A practical guide to reflexivity in qualitative research: AMEE Guide No. 149',
+                            author: 'Koopman, L., Teeter, J., & van der Ven, D. P.',
+                            year: '2023',
+                            link: 'https://doi.org/10.1080/0142159X.2022.2057287',
+                            journal: 'Medical Teacher'
+                        },
+                        {
+                            title: 'On "reflexivity" in qualitative research: Two readings, and a third',
+                            author: 'Macbeth, D.',
+                            year: '2001',
+                            link: 'https://doi.org/10.1177/107780040100700103',
+                            journal: 'Qualitative Inquiry'
+                        }
+                    ]
+                };
+            } else if (lowerQ.includes('insider') || lowerQ.includes('outsider')) {
+                return {
+                    text: `The insider-outsider distinction in research is better understood as a fluid continuum than a binary opposition. Insider researchers—those sharing cultural identity, language, or community membership with participants—possess inherent cultural competence and often enjoy participants' trust and openness. They understand unstated cultural rules, recognize significance in seemingly mundane interactions, and access informal networks. However, insiders risk missing what is obvious to everyone within the culture, may unconsciously reproduce community biases, and sometimes encounter challenges maintaining necessary analytical distance. Outsider researchers bring fresh perspectives unburdened by community assumptions, maintain independence from local politics, and often ask questions insiders would not think to ask. Yet outsiders may misinterpret cultural meanings, face access barriers, struggle to build sufficient rapport, and risk imposing external frameworks that distort local realities. Most researchers occupy multiple simultaneous positions—insider regarding some dimensions (e.g., disciplinary identity) and outsider regarding others (e.g., cultural background). The most generative scholarship often emerges from researchers who explicitly recognize and strategically navigate these hybrid positions, leveraging the analytical insights available from each perspective.`,
+                    sources: [
+                        {
+                            title: 'Beyond the insider–outsider divide in migration research',
+                            author: 'Carling, J., Erdal, M. B., & Ezzati, R.',
+                            year: '2014',
+                            link: 'https://doi.org/10.1093/migration/mnt022',
+                            journal: 'Migration Studies'
+                        },
+                        {
+                            title: 'The space between: On being an insider-outsider in qualitative research',
+                            author: 'Dwyer, S. C., & Buckle, J. L.',
+                            year: '2009',
+                            link: 'https://doi.org/10.1177/160940690900800105',
+                            journal: 'Qualitative Inquiry'
+                        },
+                        {
+                            title: 'Insiders and outsiders: A chapter in the sociology of knowledge',
+                            author: 'Merton, R. K.',
+                            year: '1972',
+                            link: 'https://doi.org/10.1086/225294',
+                            journal: 'American Journal of Sociology'
+                        }
+                    ]
+                };
+            } else if (lowerQ.includes('assess')) {
+                return {
+                    text: `Assessing your researcher embeddedness requires systematic reflection across multiple dimensions. Duration and type of relationship: Have you lived, worked, or maintained sustained engagement in this community/country? Language competence: Can you communicate directly in participants' languages without intermediaries? Field presence and time investment: How much time have you spent in direct contact with the community, and was this continuous or episodic? Prior research experience: What background knowledge or previous projects inform this work? Community collaboration: Were community members involved in designing, implementing, or analyzing your research? Positionality awareness: Can you articulate how your identities (citizenship, race, gender, class, professional status) position you relative to the community? Methodological constraints: What barriers shaped your methodology, and how did you navigate them? The RES tool systematically evaluates these dimensions to provide a comprehensive embeddedness profile. This profile then becomes crucial evidence for your methodology section—not as a confession of limitations but as a strategic articulation of how your specific positioning enabled your research insights while requiring specific reflexive practices.`,
+                    sources: [
+                        {
+                            title: 'Championing "reflexivities"',
+                            author: 'Finlay, L.',
+                            year: '2017',
+                            link: 'https://doi.org/10.1037/qup0000075',
+                            journal: 'Qualitative Psychology'
+                        },
+                        {
+                            title: 'Reflexivity, positionality and participatory ethics: Negotiating fieldwork dilemmas in international research',
+                            author: 'Sultana, F.',
+                            year: '2007',
+                            link: 'https://acme-journal.org/index.php/acme/article/view/790',
+                            journal: 'ACME: An International E-Journal for Critical Geographies'
+                        },
+                        {
+                            title: 'Writing ethnographic fieldnotes',
+                            author: 'Emerson, R. M., Fretz, R. I., & Shaw, L. L.',
+                            year: '2011',
+                            link: 'https://doi.org/10.7208/chicago/9780226206868.001.0001',
+                            journal: 'University of Chicago Press'
+                        }
+                    ]
+                };
+            } else {
+                return {
+                    text: `I specialize in researcher positionality, embeddedness, and research methodology within qualitative research traditions. I can discuss insider/outsider dynamics, how to assess your researcher positioning, embeddedness frameworks, reflexivity practices, ethical implications of different positionalities, and how to articulate these dimensions in methodology sections. For questions outside this scope—such as specific statistical techniques, general research design questions unrelated to positionality, or other academic topics—I recommend consulting disciplinary-specific resources or external AI tools. What aspect of researcher embeddedness would you like to explore?`,
+                    sources: []
+                };
+            }
+        }
+    </script>
+</body>
+</html>
